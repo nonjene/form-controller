@@ -1,1 +1,1 @@
-module.exports = require('./src/FormController.js');
+module.exports = require('./lib/FormController.js');

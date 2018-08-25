@@ -4,14 +4,13 @@
 
 const comm = require('common');
 
-import { Widget, getEveNameInput } from './util';
-const $ = window.$;
+import { Widget, getEveNameInput, $ } from './util/';
 
 const isInputSelector = type => !!~'radio,checkbox'.indexOf(type);
 
 class FormController extends Widget {
   constructor(opt) {
-    supper(opt);
+    super(opt);
     this.EVE_INPUT = getEveNameInput();
     this.opt = opt = $.extend(
       {
@@ -93,9 +92,7 @@ class FormController extends Widget {
 
     this._uid = (Math.random() * 1e5) | 0;
 
-    if (!opt.$container.jquery) {
-      opt.$container = $(opt.$container);
-    }
+    opt.$container = $(opt.$container);
 
     this._bindEve();
 
@@ -317,7 +314,7 @@ class FormController extends Widget {
     if (type === 'checkbox') {
       // 提取checkbox 的所有值
       val = this.$allInput
-        .filter(`input[name=${name}]:checked`)
+        .filter(`[name="${name}"]:checked`)
         .map(function(i, iptChecked) {
           return iptChecked.value;
         })

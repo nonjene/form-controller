@@ -4,8 +4,8 @@ import { render } from 'react-dom';
 
 
 import './index.scss';
-
+import {App} from './App';
 render(
-  <div>init</div>,
+  <App/>,
   document.getElementById('app')
 );

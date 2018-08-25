@@ -1,15 +1,7 @@
-export const getEveNameInput = function() {
-  if (this._eveInput) return this._eveInput;
-  const ipt = document.createElement('input');
-  if ('oninput' in ipt) {
-    this._eveInput = 'input';
-  } else {
-    this._eveInput = 'keyup';
-  }
-  return this._eveInput;
-};
-
-export class Widget {
+/**
+ * Widget
+ */
+export default class Widget {
   constructor() {}
   _checkSlot() {
     if (!this._slot) {
@@ -67,5 +59,3 @@ export class Widget {
     return this;
   }
 }
-
-
