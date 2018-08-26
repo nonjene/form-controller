@@ -14,9 +14,9 @@ export default class Widget {
 
     var slot = this._slot[eve];
     if (!slot) {
-      this._slot[eve] = [cb.bind(this)];
+      this._slot[eve] = [cb];
     } else {
-      slot.push(cb.bind(this));
+      slot.push(cb);
     }
     return this;
   }
@@ -25,17 +25,20 @@ export default class Widget {
     delete this._slot[eve];
     return this;
   }
-  _doTrigger(eve, params) {
+  _doTrigger(eve, params, env) {
     this._checkSlot();
-    var that = this;
+    var that = env || this;
 
     var allEve = this._slot[eve];
     if (!allEve) return this;
-    allEve.forEach(function(eFunc) {
+
+    for (let eFunc of allEve) {
       try {
         eFunc.apply(that, params);
-      } catch (e) {}
-    });
+      } catch (e) {
+        console.error && console.error(e);
+      }
+    }
   }
 
   // trigger('xxx.ins') 立即触发
@@ -44,17 +47,14 @@ export default class Widget {
     var args = Array.prototype.slice.call(arguments);
     var eve = args[0],
       params = args.slice(1);
+    var env;
 
-    if (~eve.indexOf('.ins')) {
-      return this._doTrigger(eve.slice(0, eve.indexOf('.ins')), params);
-    } else {
-      setTimeout(
-        function() {
-          return this._doTrigger(eve, params);
-        }.bind(this),
-        0
-      );
+    if (typeof eve === 'object') {
+      env = eve.env;
+      eve = eve.eve;
     }
+
+    return this._doTrigger(eve, params, env);
 
     return this;
   }

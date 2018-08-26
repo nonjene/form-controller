@@ -14,3 +14,8 @@ export const getEveNameInput = function() {
   }
   return this._eveInput;
 };
+
+export const getChromeVer = function () {
+  var raw = u.match(/Chrom(e|ium)\/([0-9]+)\./);
+  return raw ? parseInt(raw[2], 10) : false;
+};

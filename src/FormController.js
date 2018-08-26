@@ -4,7 +4,7 @@
 
 const comm = require('common');
 
-import { Widget, getEveNameInput, $ } from './util/';
+import { $, Widget, getEveNameInput, getChromeVer } from './util/';
 
 const isInputSelector = type => !!~'radio,checkbox'.indexOf(type);
 
@@ -330,7 +330,7 @@ class FormController extends Widget {
     // fixed for Chrome v53+ and detect all Chrome
     // https://chromium.googlesource.com/chromium/src/
     // +/afce9d93e76f2ff81baaa088a4ea25f67d1a76b3%5E%21/
-    const isChrome53plus = window.limin.browser.getChromeVer() > 52;
+    const isChrome53plus = getChromeVer() > 52;
 
     //失焦后假如有变化
     const handleChange = function(e) {
@@ -442,7 +442,7 @@ class FormController extends Widget {
       .on('compositionend' + '.' + this._uid, _tar, handleComposition)
       .on('blur.' + this._uid, _tar, handleBlur)
       .on('focus.' + this._uid, _tar, handleFocus)
-      .on('click.' + this._uid, 'a[data-action="submit"]', handleSubmit);
+      .on('click.' + this._uid, '[data-action="submit"]', handleSubmit);
 
     // 样式控制
     this.opt.statMark && this.on('input', handleAfterInput);
