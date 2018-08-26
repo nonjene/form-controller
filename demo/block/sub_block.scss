@@ -1,0 +1,11 @@
+
+$gap:12px;
+.u-block {
+    display: flex;
+    width:auto;
+    margin: 0 -#{$gap};
+    & > .u-sub {
+        margin: 0 $gap;
+        flex: 1;
+    }
+}
