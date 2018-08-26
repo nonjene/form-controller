@@ -39,13 +39,15 @@ export class FormDemo extends Component {
           },
           valid: val =>
             new Promise((resolve, reject) => {
-              setTimeout(() => resolve(true), 100);
+              console.log('async check "imgCode" valid.');
+              setTimeout(() => resolve(true), 1000);
             })
         },
         smsCode: {
           require: val => +val.length === 6,
           verify: val =>
             new Promise((resolve, reject) => {
+              console.log('async check "smsCode" valid.');
               setTimeout(() => resolve(true), 100);
             })
         },

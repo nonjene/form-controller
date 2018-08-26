@@ -283,7 +283,14 @@ class FormController extends Widget {
       })
     )).filter(item => item !== null);
   }
+  // 获取或设置该name是否暂时隐藏了错误提示。
+  _handleTempHideErr(name, action){
+    if(typeof action === 'undefined') return !!this[`_tempHideErr_${name}`];
+    this[`_tempHideErr_${name}`] = action;
+  }
   showErr(item) {
+    this._handleTempHideErr(item.name, false);
+
     const name = this.opt.mapHintTargetName(item.name);
 
     this.getDom('err', name)
@@ -292,7 +299,9 @@ class FormController extends Widget {
     this.getDom('err', 'submit').css('display', 'block');
     this.getDom('block', name).addClass('b-has-err');
   }
-  hideErr(name) {
+  hideErr(name, opt) {
+    this._handleTempHideErr(name, opt === 'temp');
+    
     name = this.opt.mapHintTargetName(name);
     this.getDom('err', name).css('display', 'none');
     this.getDom('err', 'submit').css('display', 'none');
@@ -346,10 +355,10 @@ class FormController extends Widget {
     //输入框 即时触发
     const handleInput = function() {
       //输入时，把对应的错误提示隐藏
-      if (!this._insHide) {
-        that.hideErr(this.name);
+      if (!this._tempHideErr) {
+        that.hideErr(this.name, 'temp');
       }
-      this._insHide = true;
+      this._tempHideErr = true;
 
       if (isOnComposition) return;
 
@@ -381,7 +390,12 @@ class FormController extends Widget {
     };
 
     const handleBlur = function() {
-      this._insHide = false;
+      this._tempHideErr = false;
+      // 
+      if(that._handleTempHideErr(this.name)){
+          that.updateChk(this.name);
+      }
+
       //
       that.opt.statMark &&
         that.getDom('block', this.name).removeClass('b-has-focus');
