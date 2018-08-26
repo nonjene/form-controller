@@ -2,72 +2,69 @@
  * 表单数据验证功能
  */
 
-const comm = require('common');
-
-import { $, Widget, getEveNameInput, getChromeVer } from './util/';
+import * as util from './util/';
+const { $, Widget } = util;
 
 const isInputSelector = type => !!~'radio,checkbox'.indexOf(type);
 
 class FormController extends Widget {
   constructor(opt) {
     super(opt);
-    this.EVE_INPUT = getEveNameInput();
-    this.opt = opt = $.extend(
-      {
-        // 容器
-        $container: null,
-        // 失焦就检测
-        blurChk: true,
+    this.EVE_INPUT = util.getEveNameInput();
+    this.opt = opt = {
+      // 容器
+      $container: null,
+      // 失焦就检测
+      blurChk: true,
 
-        // 用户输入交互，如聚焦失焦，错误，空值
-        statMark: true,
+      // 用户输入交互，如聚焦失焦，错误，空值
+      statMark: true,
 
-        // 默认的表单数据，就算是空的也要加上去。
-        defFormData: {
-          /*
-            name: '',
-            mobile: '',
-          */
-        },
-
-        // 实时控制用户输入的数据
-        dataFilter: {
-          /*
-            mobile: val => val.replace(/[^\d]/g, '').slice(0, 11),
-          */
-        },
-
-        // 数据验证
-        chkVal: {
-          /*
-            name: {
-              require: (val,next) => {
-                  next(val.length > 0)
-              },
-              max: val => val.length < 11
-            },
-            mobile: {
-              require: val => /^1\d{10}$/.test(val)
-            },
-          */
-        },
-
-        // 错误提示文案
-        errMsg: {
-          /*
-            name: {
-              require: '请填写收件人',
-              max:'收件人请限制10个字以内'
-            },
-            mobile: {
-              require: '请填写正确的联系电话'
-            },
-          */
-        },
-        mapHintTargetName: oriName => oriName
+      // 默认的表单数据，就算是空的也要加上去。
+      defFormData: {
+        /*
+          name: '',
+          mobile: '',
+        */
       },
-      opt
-    );
+
+      // 实时控制用户输入的数据
+      dataFilter: {
+        /*
+          mobile: val => val.replace(/[^\d]/g, '').slice(0, 11),
+        */
+      },
+
+      // 数据验证
+      chkVal: {
+        /*
+          name: {
+            require: (val,next) => {
+                next(val.length > 0)
+            },
+            max: val => val.length < 11
+          },
+          mobile: {
+            require: val => /^1\d{10}$/.test(val)
+          },
+        */
+      },
+
+      // 错误提示文案
+      errMsg: {
+        /*
+          name: {
+            require: '请填写收件人',
+            max:'收件人请限制10个字以内'
+          },
+          mobile: {
+            require: '请填写正确的联系电话'
+          },
+        */
+      },
+      mapHintTargetName: oriName => oriName,
+      ...opt
+    };
 
     this.formNames = Object.keys(opt.defFormData);
 
@@ -330,7 +327,7 @@ class FormController extends Widget {
     // fixed for Chrome v53+ and detect all Chrome
     // https://chromium.googlesource.com/chromium/src/
     // +/afce9d93e76f2ff81baaa088a4ea25f67d1a76b3%5E%21/
-    const isChrome53plus = getChromeVer() > 52;
+    const isChrome53plus = util.getChromeVer() > 52;
 
     //失焦后假如有变化
     const handleChange = function(e) {
@@ -344,6 +341,8 @@ class FormController extends Widget {
         dom: this
       });
     };
+
+    const deBounceHandleInput = util.debounceDo(50);
     //输入框 即时触发
     const handleInput = function() {
       //输入时，把对应的错误提示隐藏
@@ -355,25 +354,21 @@ class FormController extends Widget {
       if (isOnComposition) return;
 
       //筛选输入的数据
-      comm.debounceDo(
-        (this.name || 'noname_input') + '_2',
-        () => {
-          //筛选
-          const data = that._filterChangedData({ [this.name]: this.value });
+      deBounceHandleInput(() => {
+        //筛选
+        const data = that._filterChangedData({ [this.name]: this.value });
 
-          //解决输入法的问题。
-          if (data[this.name] !== this.value) {
-            this.value = data[this.name];
-          }
+        //解决输入法的问题。
+        if (data[this.name] !== this.value) {
+          this.value = data[this.name];
+        }
 
-          that.trigger('input', {
-            name: this.name,
-            val: this.value,
-            dom: this
-          });
-        },
-        50
-      );
+        that.trigger('input', {
+          name: this.name,
+          val: this.value,
+          dom: this
+        });
+      });
     };
 
     // 输入法事件
@@ -458,4 +453,4 @@ class FormController extends Widget {
     this.off('input').off('submit');
   }
 }
-module.exports = FormController;
+export default FormController;

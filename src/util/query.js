@@ -5,6 +5,15 @@ const getEve = eveHost => {
   return new Widget();
 };
 
+const parseEveName = eve=>{
+  let [eName] = eve.split('.');
+  const map = {
+    blur: 'focusout',
+    focus:'focusin',
+  }
+  return map[eName] || eName;
+}
+
 const parseQuery = function(_rule) {
   if (typeof _rule !== 'string') _rule = '';
 
@@ -108,6 +117,12 @@ const $ = function(query, scope) {
       });
       return this;
     },
+    css(name, val) {
+      this.each(function() {
+        this.style[name] = val;
+      });
+      return this;
+    },
     /**
      *
      * @param {string} rule only support tagName[propName1="val"]:propName2,
@@ -131,9 +146,9 @@ const $ = function(query, scope) {
     },
     removeClass(cn) {
       this.each(function() {
-        this.className = Array.from(new Set(this.classList).delete(cn)).join(
-          ' '
-        );
+        const setClassList = new Set(this.classList);
+        setClassList.delete(cn);
+        this.className = Array.from(setClassList).join(' ');
       });
     },
     addClass(cn) {
@@ -148,15 +163,13 @@ const $ = function(query, scope) {
         tar = false;
       }
 
-      const [eName] = eve.split('.');
-
       eveHost.on(eve, func);
 
       // 为了方便注销事件，同一个事件只需要绑定一次
       if (!eveHost[eve]) {
         eveHost[eve] = function(e) {
           if (tar) {
-            this._proxyEventTarget.get().some(node => {
+            this['_proxyEventTarget_' + tar].get().some(node => {
               const isHitted = node.contains(e.target);
 
               isHitted &&
@@ -169,13 +182,15 @@ const $ = function(query, scope) {
                 );
               return isHitted;
             });
+          } else {
+            eveHost.trigger(eve, e);
           }
         };
         this.each(function() {
           if (tar) {
-            this._proxyEventTarget = $(tar, this);
+            this['_proxyEventTarget_' + tar] = $(tar, this);
           }
-          this.addEventListener(eName, eveHost[eve], false);
+          this.addEventListener(parseEveName(eve), eveHost[eve], false);
         });
       }
 
@@ -184,11 +199,9 @@ const $ = function(query, scope) {
     off(eve, func) {
       eveHost = getEve(eveHost);
 
-      const [eName] = eve.split('.');
-
       eveHost[eve] &&
         this.each(function() {
-          this.removeEventListener(eName, eveHost[eve], false);
+          this.removeEventListener(parseEveName(eve), eveHost[eve], false);
         });
 
       eveHost.off(eve);
