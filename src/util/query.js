@@ -193,6 +193,7 @@ const $ = function(query, scope) {
 
       eveHost.off(eve);
       delete eveHost[eve];
+      return this;
     }
   };
 };

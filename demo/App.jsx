@@ -25,10 +25,12 @@ export class App extends Component {
     }).get();
     console.log('["chk1"]:', chkboxName);
 
-    $(this.dom).on('click.xx', 'p', function(e){
+    const $dom = $(this.dom).on('click.xx', 'p', function(e){
       console.log('event envirenment should be "<p/>":', this);
       console.log('e:', e);
+      $dom.off('click.xx');
     });
+
   }
   render() {
     return (
