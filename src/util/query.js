@@ -150,11 +150,13 @@ const $ = function(query, scope) {
         setClassList.delete(cn);
         this.className = Array.from(setClassList).join(' ');
       });
+      return this;
     },
     addClass(cn) {
       this.each(function() {
         this.className = Array.from(new Set(this.classList).add(cn)).join(' ');
       });
+      return this;
     },
     on(eve, tar, func) {
       eveHost = getEve(eveHost);

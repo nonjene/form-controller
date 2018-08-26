@@ -225,9 +225,16 @@ class FormController extends Widget {
   async chkOne(name, opt = {}, pass) {
     const chk = await this.chkOneSetting(name, opt);
 
-    if (chk === null) return pass && pass();
-
-    this.showErr(chk);
+    switch (chk) {
+      case null:
+        this.opt.statMark && this.getDom('block', name).addClass('b-has-pass');
+        // through
+      case undefined:
+        pass && pass();
+        break;
+      default:
+        this.showErr(chk);
+    }
   }
   async chkOneSetting(name, opt = {}) {
     let val = this.formdata[name];
@@ -244,7 +251,7 @@ class FormController extends Widget {
 
     // 不严格的检测。当用户未输入时，不提示错误
     if (opt.loose && !val) {
-      return null;
+      return undefined;
     }
 
     let rtn = null;
@@ -284,8 +291,8 @@ class FormController extends Widget {
     )).filter(item => item !== null);
   }
   // 获取或设置该name是否暂时隐藏了错误提示。
-  _handleTempHideErr(name, action){
-    if(typeof action === 'undefined') return !!this[`_tempHideErr_${name}`];
+  _handleTempHideErr(name, action) {
+    if (typeof action === 'undefined') return !!this[`_tempHideErr_${name}`];
     this[`_tempHideErr_${name}`] = action;
   }
   showErr(item) {
@@ -297,15 +304,15 @@ class FormController extends Widget {
       .html(item.msg)
       .css('display', 'block');
     this.getDom('err', 'submit').css('display', 'block');
-    this.getDom('block', name).addClass('b-has-err');
+    this.opt.statMark && this.getDom('block', name).removeClass('b-has-pass').addClass('b-has-err');
   }
   hideErr(name, opt) {
     this._handleTempHideErr(name, opt === 'temp');
-    
+
     name = this.opt.mapHintTargetName(name);
     this.getDom('err', name).css('display', 'none');
     this.getDom('err', 'submit').css('display', 'none');
-    this.getDom('block', name).removeClass('b-has-err');
+    this.opt.statMark && this.getDom('block', name).removeClass('b-has-err');
   }
   getDom(type, name) {
     if (type === 'block') {
@@ -391,9 +398,9 @@ class FormController extends Widget {
 
     const handleBlur = function() {
       this._tempHideErr = false;
-      // 
-      if(that._handleTempHideErr(this.name)){
-          that.updateChk(this.name);
+      //
+      if (that._handleTempHideErr(this.name)) {
+        that.updateChk(this.name);
       }
 
       //

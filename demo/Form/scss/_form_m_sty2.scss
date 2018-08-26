@@ -16,8 +16,11 @@
         font-size: pr(30);
         border-bottom: 1px solid #e6e6e6;
         transition: border-color .2s ease;
+        box-sizing: border-box;
         &.b-has-err{
             border-bottom-color:$strong;
+            border-bottom-width: 2px;
+            margin-bottom: -1px;
             >label{
                 color: $strong
             }
@@ -27,6 +30,8 @@
         }
         &.b-has-focus:not(.b-has-err){
             border-bottom-color: $blue;
+            border-bottom-width: 2px;
+            margin-bottom: -1px;
         }
         &.b-has-v:not(.b-has-err){
             >label{
