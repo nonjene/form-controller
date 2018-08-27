@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {
+  FormWrap,
   FormWrapSty1,
   FormWrapSty2,
   FormText,
@@ -181,7 +182,7 @@ export class FormDemo extends Component {
 
           <FormCheckBox
             name="checkbox2"
-            label="初始时选中某个"
+            label="默认选中某个"
             options={[
               { desc: '选项1', value: '2' },
               { desc: '选项2', value: '3' },
