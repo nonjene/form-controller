@@ -423,7 +423,7 @@ class FormController extends Widget {
 
     const handleContainerKeydown = function(e) {
       if (e.keyCode === 13) {
-        const lastI = that.$allInput.length - 1;
+        const lastI = that.$allInput.get().length - 1;
         that.$allInput.each(function(i) {
           if (this === e.target) {
             if (i === lastI) {
