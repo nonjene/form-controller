@@ -36,7 +36,8 @@ export default class SendSmsCodeBtn extends Component {
 
     this.state = {
       isCounting: false,
-      remainTime: -1
+      remainTime: -1,
+      errMsg: ''
     };
     this._initState = { ...this.state };
   }
@@ -75,7 +76,7 @@ export default class SendSmsCodeBtn extends Component {
 
     this.setState({
       isPending: true,
-      isError: false,
+      errMsg: ''
     });
 
     this.props
@@ -84,8 +85,11 @@ export default class SendSmsCodeBtn extends Component {
         this.setState({ isPending: false });
         this.startTimer();
       })
-      .catch(() => {
-        this.setState({ isPending: false, isError: true });
+      .catch(msg => {
+        this.setState({
+          isPending: false,
+          errMsg: typeof msg === 'string' ? msg : this.props.errorTitle
+        });
         this.clean();
         this.resetState();
       });
@@ -105,18 +109,19 @@ export default class SendSmsCodeBtn extends Component {
   }
 
   render() {
+    const { errMsg, isPending, isCounting } = this.state;
     return (
       <a
         className={`u-button c-btn-countdown ${this.props.styleName} ${
-          this.state.isCounting || this.state.isPending ? 'disable' : ''
+          isCounting || isPending ? 'disable' : ''
         }`}
         onClick={this.handleClick.bind(this)}
       >
-        {this.state.isPending
+        {isPending
           ? this.props.pendingTitle
-          : this.state.isError
-            ? this.props.errorTitle
-            : !this.state.isCounting
+          : errMsg
+            ? errMsg
+            : !isCounting
               ? this.props.title
               : this.state.remainTime + this.props.countdownTitle}
       </a>

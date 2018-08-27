@@ -31,7 +31,7 @@ const FormControl = ({
 }) => {
   return (
     <BlockWrap className={`form-control ${className}`} data-block={name}>
-      <label className="tc" htmlFor={name}>
+      <label className="u-sub" htmlFor={name}>
         {label}
       </label>
       <SubBlock className="rig-ipt">
@@ -52,6 +52,18 @@ const FormWrap = props => {
     </div>
   );
 };
+const FormText = (props) => {
+  return (
+    <FormControl {...props}>
+      <input
+        name={props.name}
+        disabled={props.disabled}
+        type={props.type || 'text'}
+        placeholder={props.placeholder}
+      />
+    </FormControl>
+  );
+};
 
 export default {
   Err,
@@ -63,17 +75,9 @@ export default {
   FormWrapSty2({ className = '', ...props }) {
     return <FormWrap className={`sty2 ${className}`} {...props} />;
   },
-  FormText(props) {
-    return (
-      <FormControl {...props}>
-        <input
-          name={props.name}
-          disabled={props.disabled}
-          type="text"
-          placeholder={props.placeholder}
-        />
-      </FormControl>
-    );
+  FormText,
+  FormPassword(props){
+    return <FormText type="password" {...props}/>;
   },
   FormTextarea(props) {
     return (
@@ -96,7 +100,7 @@ export default {
               name={props.name}
               {...optProps}
             />
-            <i>{desc}</i>
+            <span>{desc}</span>
           </label>
         ))}
       </FormControl>
@@ -106,15 +110,15 @@ export default {
   FormCheckBox(props) {
     return (
       <FormControl {...props}>
-        {props.options.map(({ desc, pre, chil, ...optProps }, key) => (
-          <label className={'f-chkbox ' + pre} key={key}>
+        {props.options.map(({ desc, ...optProps }, key) => (
+          <label className='f-chkbox' key={key}>
             <input
               type="checkbox"
               className="chkbox"
               name={props.name}
               {...optProps}
             />
-            <i>{desc}</i>
+            <span>{desc}</span>
           </label>
         ))}
       </FormControl>
@@ -146,10 +150,10 @@ export default {
   FormSmsCode(props) {
     return (
       <FormControl className="form-comb" {...props}>
-        <input name={props.name} type="tel" maxLength={props.maxLen} />
+        <input name={props.name} type="tel" maxLength={props.maxLen} placeholder={props.placeholder} />
         <div className="rig-ele btn-wrap">
           <SendSmsCodeBtn
-            timer={props.timer || 60}
+            timer={props.timer}
             onClick={props.onGetSmsCodeClick}
             styleName={props.btnStyleName || ''}
             title={props.btnName}
