@@ -1,9 +1,8 @@
 {
   "name": "form-controller",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A form controller easy to manage & verify user input data. No UI library dependencies.",
   "main": "index.js",
-  "module": "src/FormController.js",
   "scripts": {
     "start": "cross-env NODE_ENV=dev webpack-dev-server --inline --progress",
     "build-demo": "rimraf build && cross-env NODE_ENV=production webpack -p --progress",
