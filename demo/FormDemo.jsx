@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 
 import {
+  FormWrapSty1,
   FormWrapSty2,
   FormText,
+  FormTextarea,
+  FormRadio,
+  FormCheckBox,
+  FormPassword,
   ButtonSubmit,
   FormStatic,
   FormSmsCode,
   FormImgCode
 } from '../src/components/react/index.jsx';
+
 import '../src/components/scss/index.scss';
 
 import FormController from '../src/FormController';
@@ -22,27 +28,29 @@ export class FormDemo extends Component {
   }
   initFormCtrl() {
     const fc = (this.fc = new FormController({
-      debug:true,
+      debug: true,
       $container: this.wrapper,
       blurChk: true,
-      dataFilter: {},
+
       defFormData: {
-        passwd: '',
-        imgCode: '',
+        mobile: '',
         smsCode: '',
-        setPwd: ''
+        passwd: '',
+        repeatPwd: '',
+        radio1: '',
+        checkbox1: '',
+        checkbox2: '3,4',
+        remark: ''
+      },
+      dataFilter: {
+        mobile: val => val.replace(/[^\d]/g, '').slice(0, 11)
       },
       chkVal: {
-        imgCode: {
+        mobile: {
           require: val => {
             //debugger
-            return val.length === 4
-          },
-          valid: val =>
-            new Promise((resolve, reject) => {
-              console.log('async check "imgCode" valid.');
-              setTimeout(() => resolve(true), 1000);
-            })
+            return val.length === 11;
+          }
         },
         smsCode: {
           require: val => +val.length === 6,
@@ -56,16 +64,26 @@ export class FormDemo extends Component {
           require: val => !!val,
           strong: val => /[a-zA-Z]/.test(val) && /[0-9]/.test(val)
         },
-        setPwd: {
+        repeatPwd: {
           require: val => !!val,
           sameCheck: val => val === fc.formdata.passwd
+        },
+        radio1: {
+          require: val => !!val
+        },
+        checkbox1: {
+          require: val => !!val
+        },
+        checkbox2: {
+          // no rule
+          //require: val =>true
         }
       },
       errMsg: {
         mobile: {
-          require: '请输入正确的手机号码',
-          valid: '该手机号未注册'
+          require: '请输入11位的手机号码'
         },
+
         imgCode: {
           require: '请输入4位图片验证码',
           valid: '验证码错误'
@@ -76,60 +94,113 @@ export class FormDemo extends Component {
         },
         passwd: {
           require: '请输入密码',
-          strong:
-            '格式不正确，需包含数字及字母'
+          strong: '格式不正确，需包含数字及字母'
         },
-        setPwd: {
+        repeatPwd: {
           require: '请输入密码',
           sameCheck: '两次输入不一致'
+        },
+        radio1: {
+          require: '请选择其中一个'
+        },
+        checkbox1: {
+          require: '请至少选一个咯'
         }
       }
-    }).on('submit', data =>
-      doResetPsw({ ...data, mobile: this.state.mobile })
-    ));
+    }).on('submit', formdata => {
+      console.log(formdata);
+    }));
   }
 
   handleGetSmsCode() {
     return new Promise((resolve, reject) => {
-      setTimeout(() => reject(), 500);
+      // 获取用户输入的手机号，
+      // 假如手机号不合法，会在手机号那栏提示错误
+      const promiseChk = this.fc.getChkStatus('mobile' /* 可以添加其他name */);
+      promiseChk.then(([mobile /*boolean*/ /* 其他name */]) => {
+        if (mobile) {
+          console.log('发送验证码到手机：', this.fc.formdata.mobile);
+          // request backend api to send sms.
+          setTimeout(() => resolve(), 200);
+        } else {
+          reject(''); // 手机号验证不通过，发送按钮状态恢复初始状态。
+        }
+      });
     });
   }
   render() {
     return (
-      <FormWrapSty2 _ref={dom => (this.wrapper = dom)}>
-        <FormStatic label="手机号">
-          <span>{111111111111}</span>
-        </FormStatic>
-        <FormImgCode
-          name="imgCode"
-          label="验证码"
-          onResetSrcClick={() => {}}
-          validImg={'imgLink'}
-        />
-        <FormSmsCode
-          maxLen={6}
-          name="smsCode"
-          label="短信验证码"
-          onGetSmsCodeClick={this.handleGetSmsCode.bind(this)}
-          btnName="点击获取"
-          btnNameCountdown="s后获取"
-        />
-        <FormText
-          name="passwd"
-          label="新密码"
-          placeholder="设置6-16位数字和字母组成的密码"
-        />
-        <FormText
-          name="setPwd"
-          label="再输一遍"
-          placeholder="再输一遍你设置的新密码"
-        />
-        <div className="button-wrap">
-          <ButtonSubmit className="button-big" isLoading={false}>
-            确认
-          </ButtonSubmit>
-        </div>
-      </FormWrapSty2>
+      <div className="demo-form">
+        <h2>Form control demo</h2>
+        <FormWrapSty2 _ref={dom => (this.wrapper = dom)}>
+          <FormStatic label="手机号">
+            <span>13800000000(静态内容)</span>
+          </FormStatic>
+          <FormText
+            type="tel"
+            name="mobile"
+            label="新手机号"
+            placeholder="这是文本输入框"
+          />
+          <FormSmsCode
+            maxLen={6}
+            name="smsCode"
+            label="短信验证码"
+            placeholder="这是组合套餐"
+            onGetSmsCodeClick={this.handleGetSmsCode.bind(this)}
+            btnName="点击获取"
+            btnNameCountdown="s后获取"
+            timer={10}
+          />
+          <FormPassword
+            name="passwd"
+            label="新密码"
+            placeholder="设置6-16位数字和字母组成的密码"
+          />
+          <FormPassword
+            name="repeatPwd"
+            label="再输一遍"
+            placeholder="再输一遍你设置的新密码"
+          />
+          <FormRadio
+            name="radio1"
+            label="单选"
+            options={[
+              { desc: '启用', value: '1' },
+              { desc: '禁用', value: '0' }
+            ]}
+          />
+          <FormCheckBox
+            name="checkbox1"
+            label="多选"
+            options={[
+              { desc: '选项1', value: '0' },
+              { desc: '选项2', value: '1' }
+            ]}
+          />
+
+          <FormCheckBox
+            name="checkbox2"
+            label="初始时选中某个"
+            options={[
+              { desc: '选项1', value: '2' },
+              { desc: '选项2', value: '3' },
+              { desc: '选项3', value: '4' }
+            ]}
+          />
+
+          <FormTextarea
+            name="remark"
+            label="多行文本框"
+            placeholder="描述描述描述描述"
+          />
+          <div className="button-wrap">
+            <ButtonSubmit className="button-big" isLoading={false}>
+              确认
+            </ButtonSubmit>
+          </div>
+        </FormWrapSty2>
+      </div>
     );
   }
 }

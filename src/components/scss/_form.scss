@@ -1,100 +1,38 @@
-/* Deprecated */
 .m-form {
-    $height: 32px;
-    $lineHeight: 30px;
-    $staticLH: 1.44444;
-    $paddingH: #{($height - 14px) / 2 - ($staticLH * 14px - 14px) / 2};
-
-    .form-control {
-        font-size:14px;
-        align-items: start;
-        margin:0 0 26px 0;
-        &.form-static {
-            & > .rig-ipt {
-                height: auto;
-                line-height: $staticLH;
-                padding: $paddingH 0;
-            }
-        }
-        &.form-txta{
-            & > .rig-ipt {
-                height: auto;
-                line-height: $staticLH;
-                padding: $paddingH 0;
-            }
-        }
-        &>.u-sub{
-            margin:0;
-        }
-        &>label {
-            display: block;
-            height: $height;
-            line-height: $height;
-            text-align: right;
-            width: 110px;
-            padding-right: 26px;
-            color: #999;
-            flex: 0 0 auto;
-        }
-        &>.rig-ipt {
-
-            height: $height;
-            line-height: $height;
-            outline: none;
-            width: 320px;
-            text-align: left;
-            overflow: visible;
-            input[type="text"] {
-                width: 320px;
-                height: $height;
-                line-height: $lineHeight;
-                padding-left: 12px;
-                font-size: 13px;
-                vertical-align: top;
-                border-color: #d2d2d2;
-                margin-right: 12px;
-            }
-            textarea{
-                width: 320px;
-                height: $height * 3;
-                line-height:1.4444;
-                font-size:13px;
-            }
-            &.long-ipt {
-                & > input {
-                    width: 333px;
-                }
-            }
-
-        }
-        .f-chkbox,.f-rdio{
-            margin-right:12px;
-        }
-
-        .rig-ele, .btn-countdown {
-            width: 145px;
-            height: $height;
-            line-height: $lineHeight;
-
-            display: inline-block;
-            border-radius: 3px;
-            cursor: pointer;
-            vertical-align: middle;
-            font-size: 12px;
-            margin-left: 22px;
-        }
-        .pic-code {
-            border: 1px solid #D2D2D2;
-            & > img {
-                vertical-align: top;
-                width: 100%;
-                height: 100%;
-            }
-        }
+  .form-control {
+    box-sizing: border-box;
+    & > .u-sub {
+      margin: 0;
     }
-    .submit {
-        width: 146px;
-        height: $height + 4px;
-        line-height: $lineHeight + 4px;
+    & > label {
+      display: block;
+      color: #333;
     }
+    & > .rig-ipt {
+      & > input {
+        outline: none;
+        vertical-align: top;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+    .f-chkbox,
+    .f-rdio {
+      margin-right: 15px;
+      display: inline-block;
+    }
+
+    .rig-ele {
+      margin-left: 22px;
+    }
+
+    .pic-code {
+      border: 1px solid #d2d2d2;
+      & > img {
+        vertical-align: top;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 }
