@@ -1,0 +1,136 @@
+@import "./_func";
+
+.m-form.sty2 {
+    $height: pr(75);
+    $lineHeight: pr(35);
+    $paddingH: pr(20);
+    $staticLH: 1.44444;
+
+    margin: pr(26) $pageMargin 0;
+    background: $white;
+
+    .form-control {
+        align-items: start;
+        display: block;
+        margin: pr(22) 0 0 0;
+        font-size: pr(30);
+        border-bottom: 1px solid #e6e6e6;
+        transition: border-color .2s ease;
+        box-sizing: border-box;
+        &.b-has-err{
+            border-bottom-color:$strong;
+            border-bottom-width: 2px;
+            margin-bottom: -1px;
+            >label{
+                color: $strong
+            }
+            & > .rig-ipt>input{
+                color:$strong;
+            }
+        }
+        &.b-has-focus:not(.b-has-err){
+            border-bottom-color: $blue;
+            border-bottom-width: 2px;
+            margin-bottom: -1px;
+        }
+        &.b-has-v:not(.b-has-err){
+            >label{
+                color: $linetGray;
+            }
+        }
+        &.form-static{
+            border-bottom-color:transparent;
+            line-height: $height;
+            color:#999;
+        }
+        &.form-comb{
+            >.rig-ipt{
+                display: flex;
+                justify-content: space-between;
+                > input{
+                    width:pr(524);
+                }
+                >.rig-ele{
+                    width:pr(160);
+                    position: relative;
+                    z-index: 1;//避免错误提示的白色背景覆盖
+
+                }
+            }
+            > .pic-code{
+                >img{
+                    width:100%;
+                }
+            }
+            .btn-countdown{
+                padding:0;
+                font-size:pr(26);
+                width:100%;
+            }
+        }
+        &>.u-sub{
+            margin:0;
+        }
+
+        & > label {
+            display: block;
+            color: #333;
+            line-height: pr(42);
+            height: pr(42);
+            font-size:pr(28);
+            transition: color .2s ease;
+        }
+
+        &>.rig-ipt {
+
+            height: $height;
+            outline: none;
+            text-align: left;
+            overflow: visible;
+
+            position: relative;
+            >input {
+                height: $height;
+                line-height: $lineHeight;
+                padding: $paddingH 0;
+                vertical-align: top;
+
+                width: 100%;
+                box-sizing: border-box;
+
+                border: 0;
+                font-size: pr(30);
+                margin-right: 0;
+                border-radius: 0;
+                background: none;
+                outline:none;
+            }
+
+        }
+    }
+    .button-wrap{
+
+        padding: pr(80)  0;
+    }
+    .c-err-w {
+        display: block;
+        position: absolute;
+        top: -35px;
+        right:0;
+        height: $height;
+        .err {
+            line-height: $height;
+            font-size: 13px;
+            //background-color: #fff;
+            background-position:5px center;
+            padding-left:22px;
+            //box-shadow: -7px 0 9px -7px rgba(0, 0, 0, 0.3);
+
+        }
+    }
+    .submit {
+        //width: 146px;
+        //height: $height + 4px;
+        //line-height: $lineHeight + 4px;
+    }
+}

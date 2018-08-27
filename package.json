@@ -6,12 +6,15 @@
   "module": "src/FormController.js",
   "scripts": {
     "start": "cross-env NODE_ENV=dev webpack-dev-server --inline --progress",
-    "build": "rimraf build && cross-env NODE_ENV=production webpack -p --progress",
+    "build-demo": "rimraf build && cross-env NODE_ENV=production webpack -p --progress",
     "build-js": "babel src --out-dir dist --source-maps --extensions .jsx,.js --copy-files",
-    "build-css": "node-sass src/scss/index.scss dist/style.css",
+    "build-css": "node-sass --output-style compact src/components/scss/index.scss dist/css/style.css",
     "test": "nyc mocha --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "pub": "git push && rimraf dist && npm run build-css && npm run build-js && npm publish"
+  },
+  "peerDependencies": {
+    
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

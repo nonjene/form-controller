@@ -7,7 +7,8 @@ import {
   FormStatic,
   FormSmsCode,
   FormImgCode
-} from './Form/index';
+} from '../src/components/react/index.jsx';
+import '../src/components/scss/index.scss';
 
 import FormController from '../src/FormController';
 

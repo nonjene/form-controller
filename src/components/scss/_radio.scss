@@ -1,0 +1,20 @@
+.m-form input.toggle {
+    text-align: center;
+    border: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    height: auto;
+    width: 14px;
+    position: static;
+    margin: 0 7px 0 0;
+    &:after {
+        content: url(../img/icon/radio/un_chk.png);
+    }
+    &:checked {
+        &:after {
+            content: url(../img/icon/radio/chk.png);
+        }
+    }
+}
+

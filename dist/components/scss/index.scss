@@ -1,11 +1,15 @@
-@import "./_form_m_sty1";
-@import "./_form_m_sty2";
+//@import "./form";
+@import "./form_m_sty1";
+@import "./form_m_sty2";
 
 @import "./radio";
 @import "./chkbox";
 @import "./button";
+@import "./block";
+@import "./sendSmsCodeBtn";
 
-.c-err-w {
+.m-form {
+  .c-err-w {
     display: inline-block;
     .err {
         display: none;
@@ -15,4 +19,5 @@
         color: #fc5e5e;
         background: url("../img/tips.jpg") no-repeat left center;
     }
+}
 }

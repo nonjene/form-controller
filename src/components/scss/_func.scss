@@ -1,0 +1,21 @@
+$pageMargin:20px;
+
+$gray:#f2f4f7;
+$white:#fff;
+$red:#fc3947;
+$input: #bbb;
+$blue: #508cee;
+$deepBlue:#26384c;
+$lightBlue:#dbe5f5;
+$font: #333;
+$linetGray: #8f9094;
+$lightStrong:#f98b72;
+$linetRed: #ffebeb;
+$strong:#fc5e5e;
+
+// body背景色
+$bgC:#f3f4f8;
+
+@function pr($px) {
+  @return #{$px / 750 * 414}px;
+}

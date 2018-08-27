@@ -1,0 +1,25 @@
+.m-form input.chkbox{
+    text-align: center;
+    border: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    height: auto;
+    width: 14px;
+    position: static;
+    margin: 1px 7px 0 0;
+
+    &:after{
+        content:url(../img/icon/chkbox/un_chk.png)
+    }
+    &:checked {
+        &:after {
+            content: url(../img/icon/chkbox/chk.png)
+        }
+    }
+    &:checked:disabled {
+        &:after {
+            content: url(../img/icon/chkbox/chk_disable.png)
+        }
+    }
+}

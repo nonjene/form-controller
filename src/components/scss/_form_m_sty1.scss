@@ -1,18 +1,26 @@
-@import "./table";
-@import "./radio";
-@import "./chkbox";
+@import "./_func";
 
-.m-form {
+.m-form.sty1 {
     $height: 32px;
     $lineHeight: 30px;
     $staticLH: 1.44444;
     $paddingH: #{($height - 14px) / 2 - ($staticLH * 14px - 14px) / 2};
 
+    margin-top: pr(26);
+    padding-left: $pageMargin;
+    background: $white;
+
     .form-control {
-        //@include flexCenter(left, false);//SubBlock 已包含
-        font-size:14px;
         align-items: start;
-        margin:0 0 26px 0;
+        display: flex;
+        margin: 0;
+        padding-right: pr(32);
+        font-size: pr(30);
+        overflow: hidden;
+
+        &+.form-control{
+            border-top: 1px solid #e6e6e6;
+        }
         &.form-static {
             & > .rig-ipt {
                 height: auto;
@@ -21,53 +29,80 @@
             }
         }
         &.form-txta{
+            padding-left: 0;
+            display: block;
+            padding-bottom:pr(32);
             & > .rig-ipt {
                 height: auto;
                 line-height: $staticLH;
                 padding: $paddingH 0;
+
             }
         }
+
         &>.u-sub{
             margin:0;
+            height: 100%;
         }
+
         &>label {
             display: block;
-            height: $height;
-            line-height: $height;
-            text-align: right;
-            width: 110px;
-            padding-right: 26px;
-            color: #999;
             flex: 0 0 auto;
+            width: pr(200);
+            padding: 0;
+            height: pr(95);
+            text-align: left;
+            line-height: pr(95);
+            color: #333;
+        }
+        & > label {
+
         }
         &>.rig-ipt {
 
-            height: $height;
             line-height: $height;
             outline: none;
-            width: 320px;
             text-align: left;
             overflow: visible;
+
+            padding-top: pr(19);
+
+            .c-err-w {
+                display: block;
+                .err {
+                    font-size: 13px;
+                    margin-left: 14px;
+                }
+            }
+            & > label {
+                //float: left;
+                padding-top: pr(18);
+                margin-right: pr(80);
+                padding-left: 14px;
+            }
             input[type="text"] {
-                width: 320px;
                 height: $height;
                 line-height: $lineHeight;
                 padding-left: 12px;
-                font-size: 13px;
                 vertical-align: top;
-                border-color: #d2d2d2;
-                margin-right: 12px;
+
+                width: 100%;
+                box-sizing: border-box;
+
+                border: 0;
+                font-size: pr(30);
+                margin-right: 0;
+                border-radius: 0;
+                background: none;
             }
             textarea{
-                width: 320px;
-                height: $height * 3;
                 line-height:1.4444;
                 font-size:13px;
-            }
-            &.long-ipt {
-                & > input {
-                    width: 333px;
-                }
+                display: block;
+                width: pr(687);
+                height: pr(150);
+                background: #f3f4f8;
+                border-radius: 0;
             }
 
         }
@@ -96,9 +131,13 @@
             }
         }
     }
+    .button-wrap{
+        margin-left: -$pageMargin;
+        padding: pr(114) $pageMargin 0;
+    }
     .submit {
-        width: 146px;
-        height: $height + 4px;
-        line-height: $lineHeight + 4px;
+        //width: 146px;
+        //height: $height + 4px;
+        //line-height: $lineHeight + 4px;
     }
 }

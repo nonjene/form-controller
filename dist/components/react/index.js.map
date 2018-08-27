@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/components/react/index.jsx"],"names":["module","exports","require","default"],"mappings":";;AAAA;;;;AAKAA,OAAOC,OAAP,GAAiBC,QAAQ,aAAR,EAAuBC,OAAxC","file":"index.js","sourcesContent":["/**\n * Created by nonjene on 2018/5/8.\n */\n\n\nmodule.exports = require('./component').default;\n"]}
