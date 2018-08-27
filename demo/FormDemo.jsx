@@ -41,7 +41,7 @@ export class FormDemo extends Component {
         radio1: '',
         checkbox1: '',
         checkbox2: '3,4',
-        remark: ''
+        remark: '这是初始化时定义的数据内容。'
       },
       dataFilter: {
         mobile: val => val.replace(/[^\d]/g, '').slice(0, 11)
@@ -110,6 +110,7 @@ export class FormDemo extends Component {
       }
     }).on('submit', formdata => {
       console.log(formdata);
+      alert('data:'+ JSON.stringify(formdata))
     }));
   }
 
