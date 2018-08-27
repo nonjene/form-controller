@@ -1,5 +1,7 @@
 # Form controller
 
+[![npm](https://img.shields.io/npm/v/form-controller.svg)](https://www.npmjs.com/package/form-controller)
+
 一个便捷的表单验证交互的控制器，让繁琐的表单验证条理化，支持异步验证，不依赖任何 UI 库。
 
 ## 特点
