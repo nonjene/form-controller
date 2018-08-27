@@ -396,7 +396,7 @@ class FormController extends Widget {
       }
     };
 
-    const handleBlur = function() {
+    const handleBlur = function(e) {
       this._tempHideErr = false;
       //
       if (that._handleTempHideErr(this.name)) {
@@ -404,11 +404,11 @@ class FormController extends Widget {
       }
 
       //
-      that.opt.statMark &&
+      that.opt.statMark && !isInputSelector(e.target.type) &&
         that.getDom('block', this.name).removeClass('b-has-focus');
     };
-    const handleFocus = function() {
-      that.opt.statMark &&
+    const handleFocus = function(e) {
+      that.opt.statMark && !isInputSelector(e.target.type) &&
         that.getDom('block', this.name).addClass('b-has-focus');
     };
 
