@@ -1,1 +1,1 @@
-module.exports = require('./lib/FormController.js');
+module.exports = require('./dist/FormController.js');
