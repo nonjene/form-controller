@@ -62,6 +62,7 @@ class FormController extends Widget {
           },
         */
       },
+      // 映射错误提示的name，比如有时需要把多个name的提示显示在同一个位置
       mapHintTargetName: oriName => oriName,
       ...opt
     };
@@ -184,6 +185,8 @@ class FormController extends Widget {
       this.chkOne(name, { loose: true, useCache: true });
     }
     this.opt.debug && console.log(name, val);
+
+    return this;
   }
   _filterChangedData(data) {
     return Object.keys(data).reduce((host, key) => {
