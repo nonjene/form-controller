@@ -246,7 +246,6 @@ html 结构只有很少的约束，有如下：
 ### 兼容情况
 
 1. 如果要兼容 ie8 及以下，需要额外引入`jQuery`，注入在全局即可，formController 会自动识别。
-2. 如果没有引入`jQuery`，无论是否需要兼容 ie8，都需要引入`babel-polyfill`, 因为一些代替 jquery 的代码使用了 es6 api。
 
 ## 完整的使用例子
 
