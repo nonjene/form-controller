@@ -1,9 +1,8 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
-const cssLoader = isProd ? ExtractTextPlugin.extract('css-loader!sass-loader') : ['style-loader', 'css-loader', 'sass-loader'];
 
 
 const path = require('path');
@@ -43,7 +42,16 @@ const config = {
 			loader: 'babel-loader',
 			exclude: /node_modules/
 		},
-		{test: /\.(scss|css)$/, loader: cssLoader},
+		{
+			test: /\.(scss|css)$/,
+			use: isProd ? [
+				{
+					loader: MiniCssExtractPlugin.loader,
+				},
+				'css-loader',
+				'sass-loader',
+			] : ['style-loader', 'css-loader', 'sass-loader'],
+		},
 		{
 			test: /\.(png|jpg|gif|ico)$/,
 			loader: 'url-loader?limit=8192&name=assets/[name].[ext]'
@@ -62,8 +70,12 @@ const config = {
 if (isProd) {
 	config.devtool = '#source-map';
 	config.plugins.push(
-
-		new ExtractTextPlugin('app.[hash:5].css', {allChunks: true})
+		new MiniCssExtractPlugin({
+			// Options similar to the same options in webpackOptions.output
+			// both options are optional
+			filename: 'app.[contenthash:5].css',
+			chunkFilename: 'app_[id].[contenthash:5].css',
+		}),
 	);
 }
 
